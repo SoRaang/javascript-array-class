@@ -1,6 +1,6 @@
 // 콜 스택과 이벤트 루프, 태스크 큐, 백그라운드 이해
 
-function aaa() { // 나의 작동 예상 = baccdd, 다른 스택이 없는 상태에서의 실제 작동 = acbcdd
+function aaa() { // 나의 작동 예상 = baccdd, 다른 스택이 없는 상태에서의 실제 작동 = acbcdd. 최종 결과가 책에서와 다르다.
     setTimeout(() => {
         console.log('d'); // 가장 마지막에 두 번 연달아 출력된다.
     });
