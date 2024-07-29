@@ -69,6 +69,57 @@ console.log(arr.some((v) => v === 5)); // 홀수로 이루어진 arr 배열에�
 
 
 
+// 배열의 기초 요소
+
+let basicarr = [1, 2, 3, 4, 5];
+
+basicarr.pop(); // 맨 마지막 요소 제거
+
+console.log('pop(): ' + basicarr);
+
+basicarr.push(5); // 맨 뒤에 요소 추가
+
+console.log('push(5): ' + basicarr);
+
+basicarr.unshift(0); // 맨 앞에 요소 추가
+
+console.log('unshift(0): ' + basicarr);
+
+basicarr.shift(); // 맨 앞 요소 삭제
+
+console.log('shift(): ' + basicarr);
+
+basicarr.splice(2, 1); // (시작 인덱스, 제거할 요소 갯수, 추가할 요소 갯수)
+
+console.log('splice(2, 1): ' + basicarr);
+
+let newbasic = basicarr.slice(0, -1) // (시작 인덱스, 종료 인덱스);
+
+console.log('slice(0, -1): ' + newbasic);
+
+let doublebasic = basicarr.concat(newbasic); // 다수의 배열 합치기
+
+console.log('concat(): ' + doublebasic);
+
+basicarr.reverse(); // 순서 뒤집기
+
+console.log('reverse(): ' + basicarr);
+
+let joined = basicarr.join('/'); // 배열 내의 모든 요소를 (구분자, 지정되지 않으면 쉼표) 를 포함하여 하나의 문자열로
+
+console.log("join('/'): " + joined);
+
+let stringed = basicarr.toString(); // 배열을 단순 문자열로 출력
+
+console.log('toString(): ' + stringed);
+
+let valued = basicarr.valueOf(); // 특정 객체의 원시 값을 반환 (나중에 추가 정리 필요)
+
+console.log('valueOf(): ' + valued);
+
+// --------------------
+
+
 /** 과거에 factory function 을 통했던 객체 생성 */
 
 function createMonster(name, hp, att) {
@@ -172,3 +223,100 @@ const unarrowobj = {
 unarrowobj.sayName(); // undefined
 
 // 3. 앞선 예시에서 보았듯, 생성자 함수를 호출할 때 new를 붙이면 this는 생성자 함수가 새로 생성하는 객체가 된다.
+
+
+// --------------------
+
+
+/** 중요 : class */
+
+// 기초 개념에 대해서는 이미 설명한 바 있고 익히 알고 있으므로, class의 상속에 대한 빠른 예시를 작성한다.
+
+class Unit { // 유닛을 생성하는 부모 class
+    constructor(name, hp, att) {
+        this.name = name;
+        this.hp = hp;
+        this.att = att;
+    }
+
+    attack(target) {
+        target.hp -= this.att;
+    }
+}
+
+class Hero extends Unit { // extends를 통해 Unit 부모 class로부터 상속을 받는다.
+    constructor(name, hp, att) {
+        super(name, hp, att); // 부모 class의 컨스트럭터 메소드를 불러온다.
+        this.maxHp = hp; // 이 class가 가지는 그 외의 속성.
+    }
+
+    attack(target) {
+        super.attack(target); // 부모 class가 가지고 있는 attack() 메소드를 불러온다.
+        console.log('영웅이 강력하게 공격했다.'); // 그 외의 추가 동작.
+    }
+
+    heal() { // 이 class가 가진 별도의 메소드
+        this.hp = this.maxHp;
+    }
+}
+
+class Villain extends Unit { // 위의 Hero class와 동일한 부모 class를 공유한다.
+    constructor(name, hp, att) {
+        super(name, hp, att);
+    }
+
+    attack(target) {
+        super.attack(target);
+        console.log('으악! 이건 너무 아프다.');
+    }
+}
+
+const heroMan = new Hero('정창완', 50, 150);
+const monsterMan = new Villain('스켈레톤', 40, 5);
+
+console.log(heroMan);
+console.log(monsterMan);
+
+heroMan.attack(monsterMan); // 객체에 내장된 공격 메소드를 사용한다.
+
+console.log(monsterMan);
+
+
+// --------------------
+
+
+/** 비동기와 타이머 */
+
+// setTimeout(), setInterval()은 비동기 함수이므로 이후에 작성된 코드가 먼저 실행된다.
+
+setTimeout(() => {
+	console.log('0초 뒤에 실행된다.')
+}, 0);
+
+console.log('내가 먼저 실행한다!');
+
+// setTimeout()의 콜백 함수는 외부에서 작성해서 가지고 와도 된다.
+
+const logger = () => { console.log('2초 뒤에 실행된다.') }
+
+setTimeout(logger, 2000);
+
+
+
+// setInterval()
+
+setInterval(() => {
+    console.log('2초마다 실행된다.');
+}, 2000);
+
+
+
+// 타이머를 멈추는 메소드
+
+const bombTimer = setTimeout(() => console.log('펑!'), 5000);
+
+clearTimeout(bombTimer); // clearTimeout()은 타이머가 실행되기 전에만 취소할 수 있다.
+
+const hiccUp = setInterval(() => console.log('딸꾹!'), 5000);
+
+clearInterval(hiccUp);
